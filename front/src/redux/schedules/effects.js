@@ -1,5 +1,9 @@
-import { schedulesSetLoading, schedulesFetchItem } from "./actions";
-import { get } from "../../service/api";
+import {
+  schedulesSetLoading,
+  schedulesFetchItem,
+  schedulesAddItem
+} from "./actions";
+import { get, post } from "../../service/api";
 import { formatSchedule } from "../../service/schedule";
 
 export const asyncSchedulesFetchItem = ({ month,year }) => async dispatch => {
@@ -18,4 +22,15 @@ export const asyncSchedulesFetchItem = ({ month,year }) => async dispatch => {
 
   // 最後にreduxの状態として扱えるようになったformatedScheduleをdispatchして終了
   dispatch(schedulesFetchItem(formatedSchedule));
+}
+
+export const asyncSchedulesAddItem = schedule => async dispatch => {
+  // loading: trueにする
+  dispatch(schedulesSetLoading());
+
+  const body = { ...schedule, date: schedule.date.toISOString()}
+  const result = await post("schedules",body);
+
+  const newSchedule = formatSchedule(result);
+  dispatch(schedulesAddItem(newSchedule));
 }

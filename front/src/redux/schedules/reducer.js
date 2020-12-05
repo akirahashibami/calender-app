@@ -21,7 +21,7 @@ const schedulesReducer = (state = init, action) => {
     // itemsは前回のitemsにpayloadとして渡ってきた式の予定を追加した配列を返しています
       return {
         ...state,
-        items: [...state.items, {...payload, id: state.items.length + 1}]
+        items: [...state.items, payload]
       };
     case SCHEDULES_SET_LOADING:
       return {
