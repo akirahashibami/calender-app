@@ -1,9 +1,10 @@
 import {
   schedulesSetLoading,
   schedulesFetchItem,
-  schedulesAddItem
+  schedulesAddItem,
+  schedulesDeleteItem
 } from "./actions";
-import { get, post } from "../../service/api";
+import { get, post, deleteRequest } from "../../service/api";
 import { formatSchedule } from "../../service/schedule";
 
 export const asyncSchedulesFetchItem = ({ month,year }) => async dispatch => {
@@ -33,4 +34,16 @@ export const asyncSchedulesAddItem = schedule => async dispatch => {
 
   const newSchedule = formatSchedule(result);
   dispatch(schedulesAddItem(newSchedule));
+}
+
+export const asyncSchedulesDeleteItem = id => async(dispatch, getState) => {
+  dispatch(schedulesSetLoading());
+  // getState()はthunkの関数の第二引数でstoreのデータを取得する
+  const currentSchedules = getState().schedules.items;
+
+  await deleteRequest(`schedules/${id}`);
+
+  // 成功したらローカルのstateを削除
+  const newSchedules = currentSchedules.filter(s => s.id !== id);
+  dispatch(schedulesDeleteItem(newSchedules));
 }
