@@ -9,6 +9,8 @@ import {
 
 import { asyncSchedulesAddItem } from "../../redux/schedules/effects";
 
+import { isCloseDialog } from "../../service/schedule";
+
 const mapStateToProps = state => ({ schedule: state.addSchedule });
 
 const mapDispatchToProps = dispatch => ({
@@ -31,16 +33,25 @@ const mapDispatchToProps = dispatch => ({
 
 // ここでは必要なscheduleをstatePropsから取得できるため、saveScheduleに渡す
 // formと言う名前だと何を表しているか分かりづらいため、変数名scheduleで受け取っている
-const margeProps = (stateProps, dispatchProps) => ({
-  ...stateProps,
-  ...dispatchProps,
-  saveSchedule: () => {
-    const {
-      schedule: { form: schedule }
-    } = stateProps;
-    dispatchProps.saveSchedule(schedule);
+const margeProps = (stateProps, dispatchProps) => {
+  const {
+    schedule: { form: schedule }
+  } = stateProps;
+  const { saveSchedule, closeDialog } = dispatchProps;
+
+  return{
+    ...stateProps,
+    ...dispatchProps,
+    saveSchedule: () => {
+      saveSchedule(schedule);
+    },
+    closeDialog: () => {
+      if(isCloseDialog(schedule)){
+        closeDialog();
+      }
+    }
   }
-})
+}
 
 export default connect(
   mapStateToProps,
