@@ -9,6 +9,9 @@ const header = {
 
 export const get = async path => {
   const resp = await fetch(url(path));
+
+  checkError(resp.status);
+
   const result = await resp.json();
 
   return result;
@@ -19,6 +22,8 @@ export const post = async (path, body) => {
 
   const resp = await fetch(url(path),options);
 
+  checkError(resp.status);
+
   const result = await resp.json();
 
   return result;
@@ -27,8 +32,19 @@ export const post = async (path, body) => {
 export const deleteRequest = async path => {
   const options = { method: "DELETE" };
 
+  const resp = await fetch(url(path), options);
+  checkError(resp.status);
+
   await fetch(url(path),options);
 
   // 204 No Content が返ってくるので成功の場合は何もreturnしない
   return;
+}
+
+// 簡易的にHTTPレスポンスのStatusCodeが400より大きい(不正なリクエストorサーバーの問題)場合にエラーを吐くように
+const checkError = status => {
+  // 今回は400以上の場合は全部まとめてエラーとして処理
+  if(status >= 400) {
+    throw new Error("エラーが発生しました。時間を置いて再度お試しください。")
+  }
 }
