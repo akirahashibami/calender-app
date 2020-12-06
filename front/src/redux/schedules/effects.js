@@ -4,7 +4,7 @@ import {
   schedulesAddItem,
   schedulesDeleteItem,
   schedulesAsyncFailure,
-  
+
 } from "./actions";
 import { get, post, deleteRequest } from "../../service/api";
 import { formatSchedule } from "../../service/schedule";
@@ -14,7 +14,7 @@ export const asyncSchedulesFetchItem = ({ month,year }) => async dispatch => {
   dispatch(schedulesSetLoading());
 
   try {
-    const result = await get(`schesules?month=${month}&year=${year}`);
+    const result = await get(`schedules?month=${month}&year=${year}`);
     // const result = await get(`schedules`);
     const formatedSchedule = result.map(r => formatSchedule(r));
 

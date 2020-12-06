@@ -15,6 +15,7 @@ import rootReducer from "./redux/rootReducer";
 import Navigation from "./components/Navigation/container";
 import CurrentScheduleDialog from "./components/CurrentScheduleDialog/container.jsx";
 import thunk from "redux-thunk";
+import ErrorSnackbar from "./components/ErrorSnackbar/container";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -25,6 +26,7 @@ const App = () => (
       <CalendarBoard />
       <AddScheduleDialog />
       <CurrentScheduleDialog />
+      <ErrorSnackbar />
     </MuiPickersUtilsProvider>
   </Provider>
 )
