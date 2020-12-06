@@ -1,8 +1,8 @@
 // constants
 export const SCHEDULES_ADD_ITEM = "SCHEDULES_ADD_ITEM";
-
 export const SCHEDULES_FETCH_ITEM = "SCHEDULES_FETCH_ITEM";
 export const SCHEDULES_SET_LOADING = "SCHEDULES_SET_LOADING";
+export const SCHEDULES_DELETE_ITEM = "SCHEDULE_DELETE_ITEM";
 
 // actions
 export const schedulesAddItem = payload => ({
@@ -18,4 +18,10 @@ export const schedulesFetchItem = payload => ({
 
 export const schedulesSetLoading = () => ({
   type: SCHEDULES_SET_LOADING
+})
+
+// 削除したscheduleを排除した配列をpayloadとして渡す
+export const schedulesDeleteItem = payload => ({
+  type: SCHEDULES_DELETE_ITEM,
+  payload
 })
